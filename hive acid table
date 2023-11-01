@@ -25,8 +25,8 @@ lines terminated by '\n' stored as orc TBLPROPERTIES ('transactional'='true') ;
 
 select * from acid_example;
 
-<h2>Note: When create Acid file the following condition is very important:</h2>
-
+Note: When create Acid file the following condition is very important:
+====================================================================
 1. should be internal table(acid table)
 2. should be bucket
 3.should be table properties = true  
