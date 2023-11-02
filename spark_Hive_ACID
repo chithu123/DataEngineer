@@ -1,0 +1,36 @@
+Python equivalent code to read data from a Hive ACID table using JDBC in PySpark:
+
+from pyspark.sql import SparkSession
+
+# Step 1: Define the Hive Dialect for JDBC
+class HiveDialect:
+    def canHandle(self, url):
+        return url.startswith("jdbc:hive2")
+
+    def quoteIdentifier(self, colName):
+        return ".".join(["`" + part + "`" for part in colName.split(".")])
+
+# Step 2: Register the Hive Dialect
+from pyspark.sql import DataFrame
+DataFrame.registerDialect("HiveDialect", HiveDialect)
+
+# Step 3: Create a DataFrame using JDBC for Hive ACID table
+spark = SparkSession.builder.appName("HiveJDBC").getOrCreate()
+
+jdbcDF = spark.read.format("jdbc") \
+    .option("url", "jdbc:hive2://<URL>:10000") \
+    .option("dbtable", "dbname.tbl_name") \
+    .option("user", "USER") \
+    .option("password", "PWD") \
+    .option("fetchsize", "20") \
+    .load()
+
+# Show the data
+jdbcDF.show()
+
+This Python code uses PySpark, the Python API for Apache Spark, to establish a connection to Hive using JDBC
+and read data from an ACID table.
+It's important to replace <URL>, dbname.tbl_name, USER, and PWD with the appropriate values relevant to your Hive environment and credentials.
+
+Please note that the provided code should be run in a PySpark environment and the necessary
+dependencies need to be installed and configured to interact with Hive using JDBC in Python.
