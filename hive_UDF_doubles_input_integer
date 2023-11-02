@@ -1,0 +1,17 @@
+from py4j.java_gateway import java_import
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("HiveUDF").enableHiveSupport().getOrCreate()
+
+# Register Python UDF as a Hive function
+def double_value(value):
+    return value * 2
+
+# Register the Python function as a Hive UDF
+spark.udf.register("double_udf", double_value)
+
+# You may need to restart your Spark environment after registering the UDF
+
+# To use this UDF in a Hive query, you can then do the following:
+spark.sql("SELECT double_udf(some_column) AS doubled_value FROM your_table").show()
