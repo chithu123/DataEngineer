@@ -1,0 +1,11 @@
+rom pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("HiveUDF").enableHiveSupport().getOrCreate()
+
+# Register Python UDF as a Hive function
+def name_to_string(name):
+    return str(name)
+
+# Register the Python function as a Hive UDF
+spark.udf.register("name_to_string_udf", name_to_string)
