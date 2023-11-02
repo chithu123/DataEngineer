@@ -1,0 +1,11 @@
+from pyspark.sql import SparkSession
+
+# Initialize SparkSession
+spark = SparkSession.builder.appName("HiveUDF").enableHiveSupport().getOrCreate()
+
+# Register Python UDF as a Hive function
+def to_uppercase(value):
+    return str(value).upper()
+
+# Register the Python function as a Hive UDF
+spark.udf.register("to_uppercase_udf", to_uppercase)
